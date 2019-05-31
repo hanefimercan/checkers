@@ -1,8 +1,8 @@
 
-
 emptyCell= "-"
-rowCount = 7  # row count can not be smaller than 8
-colCount = 6
+rowCount = 8  # row count can not be smaller than 8
+colCount = 10
+
 
 def printPaths(paths):
     for path in paths:
@@ -53,7 +53,22 @@ def deepCopyBoard(board):
     boardNew = [list(x) for x in board[:]]  # deep copy
     return boardNew
 
+def getdirection(pos1, pos2):
+    # Finds the direction of the move from pos1 to pos2
+    r1, c1 = pos1
+    r2, c2 = pos2
+    direction = None
+    if r1  > r2:
+        if c1 > c2:
+            direction = 1
+        else:
+            direction = 2
+    else:
+        if c1 > c2:
+            direction = 4
+        else:
+            direction = 3    
 
-
+    return direction
 
 

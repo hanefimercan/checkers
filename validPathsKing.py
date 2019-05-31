@@ -1,20 +1,25 @@
 from common import *
 from random import shuffle
 
-def getBestPathsForTwoLengthPaths(paths):
-    # TODO: king ve diger taslar 1 move yapacaksa king secilmesi zorunlu degil
-    # ama simdiki implementasyonda king seciliyor daima
-    # cozum bestPathForTurn burada olabilir. lower olmadan nasilolur dusun
+def getJumpPathsForTwoLengthPaths(board, paths):
+    # Eger en iyi path uzunlugu 2 ise, yani sadece bir move yapiliyorsa;
+    # Jump yapan (karsi taraftan tas alan) bir hareket secilmeli
+    # Eger oyle bir hareket yoksa, diger tum hareketler valid
+
     newPaths = []
     for path in paths:
         if len(path) != 2:
             raise SystemError("Sth is wrong")
-        node1 = path[0]
-        node2 = path[1]
-        diff = abs(node1[0] - node2[0]) + abs(node1[1] - node2[1])
-        if diff == 4:
+        pos1 = path[0]
+        pos2 = path[1]
+        direction = getdirection(pos1, pos2)
+        length = abs(pos1[0] - pos2[0]) 
+        noOfrival = countNoOfRivalsInDirection(board, pos1, direction , length)
+        if noOfrival == 1:
             newPaths.append(path)
-    if not newPaths:
+        elif noOfrival > 1:
+            raise SystemError('Sth is wrong 3')
+    if not newPaths:  # if there is no path with jump
         return paths
     return newPaths
 
@@ -151,8 +156,9 @@ def bestPathsForTurn(board, player):
         # if there exists a path then return the longest one for that piece
         if len(path) == longPathLength:
             longestPaths.append(tuple(path))
+
     if longPathLength == 2: # Choose the path with jump if exists when there is only one move
-        longestPaths = getBestPathsForTwoLengthPaths(longestPaths)
+        longestPaths = getJumpPathsForTwoLengthPaths(board, longestPaths)
     shuffle(longestPaths)
     return longestPaths
 

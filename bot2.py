@@ -12,7 +12,6 @@ def countPiece(board, piece):
                 count += 1
     return count
 
-
 def calculateGain(board, piece):
     xNormalCount = countPiece(board, 'x')
     oNormalCount = countPiece(board, 'o')
@@ -26,7 +25,7 @@ def calculateGain(board, piece):
     return gain
 
 def play(board, paths, piece):
-    printPaths(paths)
+    #printPaths(paths)
     gains = {}
     for path in paths:
         boardCopy = deepCopyBoard(board)
